@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix } = require('./config.json');
-const env = require('dotenv');
+const env = require('dotenv').config();
 
 
 module.exports = client = new Discord.Client();
@@ -36,4 +36,4 @@ client.on('message', message => {
 	}
 });
 
-client.login(env.TOKEN);
+client.login(process.env.TOKEN);
