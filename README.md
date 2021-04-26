@@ -1,5 +1,9 @@
 # Disbot V2 - La Madonne TTK
 
+```
+
+```
+
 ## Objectifs
 - [ ] intégration d'une commande ping (qui répond Pong)
 - [ ] Intégration d'une commande `!help` (Affiche toutes les commandes et leurs fonctionnement)

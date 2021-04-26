@@ -17,7 +17,7 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
-    console.log(`Registering '${command.name}' command`);
+    console.info(`Registering '${command.name}' command`);
 }
 
 client.on('message', message => {
