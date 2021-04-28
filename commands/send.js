@@ -1,11 +1,11 @@
 const { emoji } = require('../config.json');
 const getUserFromMention = require('../utils/getUserFromMention.js');
-const db = require('../database/database.js');
+const db = require('../database/firebase.js');
 
 module.exports = {
 	name: 'send',
 	description: 'Send <amount> ChL to <@user>',
-	usage: "!send <@user> <amount>",
+	usage: "!send <amount> <@user>",
 	async execute(message, args) {
 
 		const token = message.author.id;
@@ -16,7 +16,7 @@ module.exports = {
 
         if (args.length < 2) {
             console.log(`no enought arguments. (${args.length})`);
-            message.channel.send(`No enought arguments. (${args.length})\n\`\`\`\nUsage:\n\t!send <@user> <amount>\`\`\``)
+            message.channel.send(`No enought arguments !\n\`\`\`USAGE:\t${this.usage}\`\`\``)
             message.react(emoji.error);
             return;
         }
@@ -29,7 +29,13 @@ module.exports = {
         }
         const getterDoc = await users.doc(mention.id).get();
 
-        if (!senderDoc.exists || !getterDoc.exists || token == mention.id) {
+        if (token == mention.id) {
+            message.channel.send(`You cannot send ChL to yourself :/`);
+            message.react(emoji.warning);
+            return;
+        }
+
+        if (!senderDoc.exists || !getterDoc.exists) {
             message.channel.send(`An error occured during transaction... Sorry :(`);
             message.react(emoji.error);
             return;

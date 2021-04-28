@@ -1,5 +1,5 @@
 const { emoji } = require('../config.json');
-const db = require('../database/database.js');
+const db = require('../database/firebase.js');
 
 module.exports = {
 	name: 'balance',
