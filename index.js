@@ -3,13 +3,13 @@ const Discord = require('discord.js');
 const { prefix } = require('./config.json');
 const env = require('dotenv').config();
 
-
+// DISCORD
 module.exports = client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 client.once('ready', () => {
     console.log('Client is ready');
-    client.user.setPresence({ activity: { name: 'mettre des cocos !' }, status: 'available' })
+    client.user.setPresence({ activity: { name: 'attendre des ordres' }, status: 'available' })
 });
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
