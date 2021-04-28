@@ -35,41 +35,47 @@ module.exports = {
             return;
         }
 
-        if (!senderDoc.exists || !getterDoc.exists) {
-            message.channel.send(`An error occured during transaction... Sorry :(`);
+        if (!getterDoc.exists) {
+            message.channel.send(`This person does not have an account ... :(`);
             message.react(emoji.error);
             return;
-        } else {
-
-            const sender = senderDoc.data();
-            const getter = getterDoc.data();
-
-            if (amount == undefined) {
-                message.channel.send(`The amount sent must be a number !`);
-                message.react(emoji.error);
-                return;
-            }
-
-            if (sender.balance < amount) {
-                message.channel.send(`Oups, you don't have funds for this payment !`);
-                message.react(emoji.warning);
-                return;
-            }
-
-            await users.doc(token).update({ balance: sender.balance -= amount });
-            await users.doc(mention.id).update({ balance: getter.balance += amount });
-
-            const transaction = {
-                sender: senderDoc.ref,
-                getter: getterDoc.ref,
-                amount: amount
-            }
-            let newTransaction = db.collection('transactions').doc();
-            await newTransaction.set(transaction).then(function() {
-                console.log(`new transaction between '${sender.username}' and '${getter.username}' of ${amount}`);
-                message.channel.send(`${message.author} send \`${amount}\` to ${mention}`);
-                message.react(emoji.success);
-            })
         }
+        if (!senderDoc.exists) {
+            message.channel.send(`You don't have an account ... use the command \`!balance\` first. :(`);
+            message.react(emoji.error);
+            return;
+        }
+
+        const sender = senderDoc.data();
+        const getter = getterDoc.data();
+
+        if (amount == undefined || Number.isNaN(amount)) {
+            message.channel.send(`The amount sent must be a number !`);
+            message.react(emoji.error);
+            return;
+        }
+        if (Math.sign(amount) == -1 || Math.sign(amount) == 0) {
+            message.channel.send(`Amount must be a positive value ...`);
+            message.react(emoji.warning);
+            return;
+        }
+        if (sender.balance < amount) {
+            message.channel.send(`Oups, you don't have funds for this payment !`);
+            message.react(emoji.warning);
+            return;
+        }
+        await users.doc(token).update({ balance: sender.balance -= amount });
+        await users.doc(mention.id).update({ balance: getter.balance += amount });
+        const transaction = {
+            sender: senderDoc.ref,
+            getter: getterDoc.ref,
+            amount: amount
+        }
+        let newTransaction = db.collection('transactions').doc();
+        await newTransaction.set(transaction).then(function() {
+            console.log(`new transaction between '${sender.username}' and '${getter.username}' of ${amount}`);
+            message.channel.send(`${message.author} send \`${amount}\` to ${mention}`);
+            message.react(emoji.success);
+        })
 	},
 };
