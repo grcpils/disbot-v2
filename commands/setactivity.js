@@ -1,4 +1,4 @@
-const client = require("../index.js")
+const { emoji } = require('../config.json');
 
 module.exports = {
 	name: 'setactivity',
@@ -6,5 +6,7 @@ module.exports = {
 	usage: "!setactivity <activity>",
 	execute(message, args) {
         client.user.setPresence({ activity: { name: args.join(" ") }, status: 'available' })
+		message.channel.send(`New activity setup ;)`);
+		message.react(emoji.success);
 	},
 };
