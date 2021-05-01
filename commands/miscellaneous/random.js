@@ -1,4 +1,5 @@
-const getRandom = require('../utils/getRandom');
+require('module-alias/register')
+const getRandom = require('@utils/getRandom.js');
 
 random_sentences = [
 	"Une phrase aléatoire ...",
@@ -7,7 +8,8 @@ random_sentences = [
 ]
 
 module.exports = {
-	name: 'random',
+	name: 'Randomizer',
+	cmd: 'random',
     description: 'Reply with a random message !',
     usage: '!random',
 	execute(message, args) {

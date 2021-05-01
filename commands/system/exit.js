@@ -1,9 +1,9 @@
-const { emoji, admin } = require('../config.json');
+require('module-alias/register')
+const { emoji, admin } = require('@root/config.json');
 
 module.exports = {
-	name: 'exit',
-    description: '...',
-    usage: '!exit',
+	name: 'Exit Deamon Bot',
+    cmd: 'exit',
 	execute(message, args) {
         if (admin.find(token => token ==  message.author.id) != undefined) {
             message.react(emoji.success);

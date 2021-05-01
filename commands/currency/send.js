@@ -1,11 +1,17 @@
-const { emoji } = require('../config.json');
-const getUserFromMention = require('../utils/getUserFromMention.js');
-const db = require('../database/firebase.js');
+require('module-alias/register')
+const { emoji } = require('@root/config.json');
+const getUserFromMention = require('@utils/getUserFromMention.js');
+const amountIsCorrect = require('@utils/amountIsCorrect.js');
+const db = require('@database/firebase.js');
+const Embed = require('@utils/embeds.js');
+const code = require('@utils/code.js');
 
 module.exports = {
-	name: 'send',
+	name: 'Payment',
+    cmd: 'send',
 	description: 'Send <amount> ChL to <@user>',
 	usage: "!send <amount> <@user>",
+    args: 2,
 	async execute(message, args) {
 
 		const token = message.author.id;
@@ -13,35 +19,36 @@ module.exports = {
 		const users = db.collection('users');
 		const senderDoc = await users.doc(token).get();
         let amount = parseInt(args[0], 10);
+        let msg;
 
-        if (args.length < 2) {
-            console.log(`no enought arguments. (${args.length})`);
-            message.channel.send(`No enought arguments !\n\`\`\`USAGE:\t${this.usage}\`\`\``)
-            message.react(emoji.error);
-            return;
-        }
+        if (amountIsCorrect(message, amount) != true) { return; }
 
         const mention = getUserFromMention(args[1]);
         if (mention == undefined) {
-            message.channel.send(`This is not a correct user... :(`);
+            msg = Embed.error('This is not a correct user !', '');
+            message.channel.send(msg);
             message.react(emoji.error);
             return;
         }
+
         const getterDoc = await users.doc(mention.id).get();
 
         if (token == mention.id) {
-            message.channel.send(`You cannot send ChL to yourself :/`);
+            msg = Embed.error(`You cannot send ChL to yourself :/`, '');
+            message.channel.send(msg);
             message.react(emoji.warning);
             return;
         }
 
         if (!getterDoc.exists) {
-            message.channel.send(`This person does not have an account ... :(`);
+            msg = Embed.error(`This person does not have an account ... :(`, '')
+            message.channel.send(msg);
             message.react(emoji.error);
             return;
         }
         if (!senderDoc.exists) {
-            message.channel.send(`You don't have an account ... use the command \`!balance\` first. :(`);
+            msg = Embed.error(`You don't have an account`, `use the command ${code('!balance')} first !`)
+            message.channel.send(msg);
             message.react(emoji.error);
             return;
         }
@@ -49,18 +56,9 @@ module.exports = {
         const sender = senderDoc.data();
         const getter = getterDoc.data();
 
-        if (amount == undefined || Number.isNaN(amount)) {
-            message.channel.send(`The amount sent must be a number !`);
-            message.react(emoji.error);
-            return;
-        }
-        if (Math.sign(amount) == -1 || Math.sign(amount) == 0) {
-            message.channel.send(`Amount must be a positive value ...`);
-            message.react(emoji.warning);
-            return;
-        }
         if (sender.balance < amount) {
-            message.channel.send(`Oups, you don't have funds for this payment !`);
+            msg = Embed.warning(`Oups, you don't have funds for this payment !`, '');
+            message.channel.send(msg);
             message.react(emoji.warning);
             return;
         }
@@ -74,7 +72,8 @@ module.exports = {
         let newTransaction = db.collection('transactions').doc();
         await newTransaction.set(transaction).then(function() {
             console.log(`new transaction between '${sender.username}' and '${getter.username}' of ${amount}`);
-            message.channel.send(`${message.author} send \`${amount}\` to ${mention}`);
+            msg = Embed.success(`You successfully send ChL !`, `${mention} receive ${code(amount+' ChL')}from ${message.author}`);
+            message.channel.send(msg);
             message.react(emoji.success);
         })
 	},

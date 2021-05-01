@@ -4,9 +4,17 @@
         698903412175274095,
         380416027407810561
     ],
+    "maximum_stealable": 10,
+    "steal_probability": 0.4,
     "emoji": {
         "success": "✅",
         "error": "❌",
         "warning": "⚠️"
+    },
+    "colors": {
+        "error": "#e74c3c",
+        "warning": "#e67e22",
+        "success": "#27ae60",
+        "info": "#2980b9"
     }
 }
