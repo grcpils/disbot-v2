@@ -1,10 +1,9 @@
-require('module-alias/register')
-const { emoji, maximum_stealable, steal_probability } = require('@root/config.json');
-const getUserFromMention = require('@utils/getUserFromMention.js');
-const amountIsCorrect = require('@utils/amountIsCorrect.js');
-const db = require('@database/firebase.js');
-const Embed = require('@utils/embeds.js');
-const code = require('@utils/code.js');
+const { emoji, maximum_stealable, steal_probability } = require('../../config.json');
+const getUserFromMention = require('../../utils/getUserFromMention.js');
+const amountIsCorrect = require('../../utils/amountIsCorrect.js');
+const db = require('../../database/firebase.js');
+const Embed = require('../../utils/embeds.js');
+const code = require('../../utils/code.js');
 
 module.exports = {
 	name: 'Robbery',

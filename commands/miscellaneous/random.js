@@ -1,5 +1,4 @@
-require('module-alias/register')
-const getRandom = require('@utils/getRandom.js');
+const getRandom = require('../../utils/getRandom.js');
 
 random_sentences = [
 	"Une phrase aléatoire ...",

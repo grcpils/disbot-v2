@@ -1,8 +1,7 @@
-require('module-alias/register')
-const { emoji } = require('@root/config.json');
-const db = require('@database/firebase.js');
-const Embed = require('@utils/embeds.js');
-const code = require('@utils/code.js');
+const { emoji } = require('../../config.json');
+const db = require('../../database/firebase.js');
+const Embed = require('../../utils/embeds.js');
+const code = require('../../utils/code.js');
 
 module.exports = {
 	name: 'Balance',

@@ -1,8 +1,7 @@
-require('module-alias/register')
 const Discord = require('discord.js');
-const { emoji, colors } = require('@root/config.json');
-const Embed = require('@utils/embeds.js');
-const code = require('@utils/code.js');
+const { emoji, colors } = require('../../config.json');
+const Embed = require('../../utils/embeds.js');
+const code = require('../../utils/code.js');
 
 module.exports = {
     name: 'Helper',

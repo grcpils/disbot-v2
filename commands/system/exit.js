@@ -1,5 +1,4 @@
-require('module-alias/register')
-const { emoji, admin } = require('@root/config.json');
+const { emoji, admin } = require('../../config.json');
 
 module.exports = {
 	name: 'Exit Deamon Bot',
