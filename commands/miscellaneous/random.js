@@ -17,9 +17,9 @@ random_sentences = [
 ]
 
 module.exports = {
-	name: 'Randomizer',
-	cmd: 'random',
-    description: 'Reply with a random message !',
+	name: 'Trankilou',
+	cmd: 'ttk',
+    description: 'Just Trankilou !',
     usage: '!random',
 	execute(message, args) {
 		message.channel.send(`${getRandom(random_sentences).replace('<@>', message.author)}`);
