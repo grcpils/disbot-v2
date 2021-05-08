@@ -21,7 +21,7 @@ module.exports = {
 	name: 'Trankilou',
 	cmd: 'ttk',
     description: 'Just Trankilou !',
-    usage: `${prefix}${this.cmd}`,
+    usage: `${prefix}ttk`,
 	execute(message, args) {
 		message.channel.send(`${getRandom(random_sentences).replace('<@>', message.author)}`);
 	},
