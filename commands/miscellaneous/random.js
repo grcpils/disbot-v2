@@ -1,3 +1,4 @@
+const { prefix } = require('../../config.json');
 const getRandom = require('../../utils/getRandom.js');
 
 random_sentences = [
@@ -20,7 +21,7 @@ module.exports = {
 	name: 'Trankilou',
 	cmd: 'ttk',
     description: 'Just Trankilou !',
-    usage: '!random',
+    usage: `${prefix}${this.cmd}`,
 	execute(message, args) {
 		message.channel.send(`${getRandom(random_sentences).replace('<@>', message.author)}`);
 	},
